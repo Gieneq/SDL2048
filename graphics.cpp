@@ -49,6 +49,8 @@ BoardRenderer::BoardRenderer(SDL_PixelFormat* format) {
     piece_colors[5] = {f_rgb(0xb85332), f_rgb(0x222222), f_rgb(0xEEEEEE)};
     piece_colors[6] = {f_rgb(0xa81818), f_rgb(0x222222), f_rgb(0xEFEFEF)};
     piece_colors[7] = {f_rgb(0x8c075b), f_rgb(0x4d0331), f_rgb(0xFFFFFF)};
+
+    // font = TTF_OpenFont("Sans.ttf", 24);
 }
 
 BoardRenderer::~BoardRenderer() { 

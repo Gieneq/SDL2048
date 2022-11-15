@@ -6,7 +6,16 @@
 
 Game::Game() {
     SDL_Log("Init game...");
-    SDL_Init(SDL_INIT_VIDEO); //SDL_INIT_EVERYTHING
+    // SDL_Init(SDL_INIT_EVERYTHING);
+    if(SDL_Init(SDL_INIT_EVERYTHING)) {
+        printf("SDL Init error\n");
+        throw std::logic_error(std::string(SDL_GetError()));
+    }
+
+    // if(TTF_Init()) {
+    //     printf("SDL_TTF error\n\n");
+    // }
+
     window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_SHOWN);
     window_surface = SDL_GetWindowSurface(window);
 
@@ -24,6 +33,7 @@ Game::~Game() {
     window_surface = nullptr;
     SDL_DestroyWindow(window);
     window = nullptr;
+    // TTF_Quit();
     SDL_Quit();
 }
 
@@ -63,7 +73,7 @@ void Game::loop() {
         rendering_time_ms = 1000.0f *(render_endtime - render_start_time) / (float)SDL_GetPerformanceFrequency();
 
         fps_end_time = SDL_GetPerformanceCounter();
-        printf("dt: %f s, FPS: %f Hz,\n", dt_s, 1.0f/dt_s);
+        // printf("dt: %f s, FPS: %f Hz,\n", dt_s, 1.0f/dt_s);
         fps_time_ms = 1000.0f *(render_endtime - render_start_time) / (float)SDL_GetPerformanceFrequency();
         SDL_Delay(static_cast<uint32_t>(FPS_CAP_INTERVAL_MS - fps_time_ms));
 

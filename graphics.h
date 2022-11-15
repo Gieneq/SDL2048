@@ -1,7 +1,7 @@
 #pragma once
 // #include <stdio.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+// #include <SDL2/SDL_ttf.h>
 #include "board.h"
 #include <algorithm>
 
@@ -11,7 +11,7 @@ struct PieceColors{
     uint32_t text;
 };
 
-class BoardRenderer{
+class BoardRenderer {
 private:
     Board* board;
     SDL_Surface* draw_surface;
@@ -28,6 +28,8 @@ private:
     int tile_size;
     int field_size;
     int piece_size;
+
+    // TTF_Font* font;
 
 public:
     BoardRenderer(SDL_PixelFormat* format);
