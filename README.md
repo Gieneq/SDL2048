@@ -3,9 +3,14 @@
 Attempt to make 2048 game with SDL and C++.
 
 ## Worklog
- - [x] Setup stable game loop.
- - [ ] Render board.
+ -[x] Setup stable game loop.
+ -[x] Render board.
+ -[ ] Render pieces with texts.
 
+
+## Tools
+ - [SDL](https://github.com/libsdl-org/SDL/releases)
+ - [SDL TTF](https://github.com/libsdl-org/SDL_ttf/releases)
 
 
 ## Reference

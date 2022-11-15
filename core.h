@@ -1,19 +1,8 @@
 #pragma once
 #include <stdio.h>
 #include <SDL2/SDL.h>
-
-class Board {
-private:
-    static const int ROWS = 4;
-    static const int COLUMNS = 4;
-    int grid[COLUMNS][ROWS]{0};
-public:
-    Board();
-    ~Board();
-    int get_value(int x, int y);
-    void set_value(int value, int x, int y);
-    bool is_free(int x, int y);
-};
+#include "board.h"
+#include "graphics.h"
 
 class Game {
 private:
@@ -26,6 +15,7 @@ private:
     SDL_Window* window;
     SDL_Surface* window_surface;
     Board* board;
+    BoardRenderer* board_renderer;
 public:
     Game();
     ~Game();

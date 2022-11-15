@@ -1,36 +1,6 @@
 #include "core.h"
 
 /***********************************
- *              BOARD              *
- ***********************************/
-
-Board::Board() {
-    SDL_Log("Creating new board with size %d x %d", Board::COLUMNS, Board::ROWS);
-    for(int iy = 0; iy < Board::COLUMNS; ++iy) {
-        for(int ix = 0; ix < Board::ROWS; ++ix)
-            set_value(0, ix, iy);
-    }
-}
-
-Board::~Board() {
-    SDL_Log("Destructing board.");
-}
-
-int Board::get_value(int x, int y) {
-    return grid[x][y];
-}
-
-void Board::set_value(int value, int x, int y) {
-    grid[y][x] = value;
-}
-
-bool Board::is_free(int x, int y) {
-    return get_value(x,y) > 0;
-}
-
-
-
-/***********************************
  *               GAME              *
  ***********************************/
 
@@ -39,6 +9,13 @@ Game::Game() {
     SDL_Init(SDL_INIT_VIDEO); //SDL_INIT_EVERYTHING
     window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_SHOWN);
     window_surface = SDL_GetWindowSurface(window);
+
+    board = new Board();
+
+    board_renderer = new BoardRenderer(window_surface->format);
+    board_renderer->attach_board(board);
+    board_renderer->attach_draw_surface(window_surface);
+    board_renderer->recalc();
 }
 
 Game::~Game() {
@@ -99,5 +76,6 @@ void Game::update(float dt) {
 }
 
 void Game::render() {
+    board_renderer->render();
     SDL_UpdateWindowSurface(window);
 }
