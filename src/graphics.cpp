@@ -1,22 +1,39 @@
 #include "graphics.h"
 
+const int BoardRenderer::PIECE_COLORS_BREAKPOINTS[PIECE_COLORS_COUNT-1]{4,16,64,256,1024,2048,4096};
+
+
+int BoardRenderer::get_index_by_value(int value) {
+	if (value <= PIECE_COLORS_BREAKPOINTS[0])
+		return 0;
+
+	for (int idx = 1; idx < PIECE_COLORS_COUNT-1; ++idx){
+		if ((value > PIECE_COLORS_BREAKPOINTS[idx-1]) && (value <= PIECE_COLORS_BREAKPOINTS[idx]))
+			return idx;
+	}
+
+	return PIECE_COLORS_COUNT-1;
+}
+
 PieceColors& BoardRenderer::get_piece_color(int value) {
-    if (value <= 4)
-        return piece_colors[0];
-    else if (value <= 16)
-        return piece_colors[1];
-    else if (value <= 64)
-        return piece_colors[2];
-    else if (value <= 256)
-        return piece_colors[3];
-    else if (value <= 1024)
-        return piece_colors[4];
-    else if (value <= 2048)
-        return piece_colors[5];
-    else if (value <= 4096)
-        return piece_colors[6];
-    else
-        return piece_colors[7];
+	return  piece_colors[get_index_by_value(value)];
+}
+
+
+SDL_Surface* BoardRenderer::get_piece_label(int value) {
+	if (value < 0)
+		value = 0;
+
+	if (!value_labels.count(value)){
+		std::string s = std::to_string(value);
+		const char* text = s.c_str();
+ 		uint32_t tc = get_piece_color(value).text;
+ 		SDL_Color color{uint8_t((tc>>16)&0xFF), uint8_t((tc>>8)&0xFF), uint8_t((tc>>0)&0xFF), 0xFF};
+ 		value_labels[value] = TTF_RenderText_Solid(font, text, color);
+ 		printf("New label added: %s\n", text);
+	}
+
+	return value_labels[value];
 }
 
 
@@ -40,38 +57,19 @@ BoardRenderer::BoardRenderer(SDL_PixelFormat* format) {
     board_color = f_rgb(0xbababa);
     field_color = f_rgb(0xa3a3a3);
 
-
-    piece_colors[0] = {f_rgb(0xf5f4d5), f_rgb(0x222222), f_rgb(0x999999)};
-    piece_colors[1] = {f_rgb(0xebe2ab), f_rgb(0x222222), f_rgb(0x999999)};
-    piece_colors[2] = {f_rgb(0xe3cf8f), f_rgb(0x222222), f_rgb(0x999999)};
-    piece_colors[3] = {f_rgb(0xd6ae76), f_rgb(0x222222), f_rgb(0xAAAAAA)};
-    piece_colors[4] = {f_rgb(0xc78150), f_rgb(0x222222), f_rgb(0xDDDDDD)};
-    piece_colors[5] = {f_rgb(0xb85332), f_rgb(0x222222), f_rgb(0xEEEEEE)};
-    piece_colors[6] = {f_rgb(0xa81818), f_rgb(0x222222), f_rgb(0xEFEFEF)};
+    piece_colors[0] = {f_rgb(0xf5f4d5), f_rgb(0x222222), f_rgb(0x000000)};
+    piece_colors[1] = {f_rgb(0xebe2ab), f_rgb(0x222222), f_rgb(0x000000)};
+    piece_colors[2] = {f_rgb(0xe3cf8f), f_rgb(0x222222), f_rgb(0x000000)};
+    piece_colors[3] = {f_rgb(0xd6ae76), f_rgb(0x222222), f_rgb(0x000000)};
+    piece_colors[4] = {f_rgb(0xc78150), f_rgb(0x222222), f_rgb(0x000000)};
+    piece_colors[5] = {f_rgb(0xb85332), f_rgb(0x222222), f_rgb(0xFFFFFF)};
+    piece_colors[6] = {f_rgb(0xa81818), f_rgb(0x222222), f_rgb(0xFFFFFF)};
     piece_colors[7] = {f_rgb(0x8c075b), f_rgb(0x4d0331), f_rgb(0xFFFFFF)};
 
-     font = TTF_OpenFont("res/Quicksand-Bold.ttf", 32);
-//     int ww, hh;
-//     TTF_SizeText(font, "1024", &ww, &hh);
-//     printf("%d, %d\n", ww, hh);
+     font = TTF_OpenFont("res/Quicksand-Bold.ttf", 24);
 
-     value_labels[0] = TTF_RenderText_Solid(font, "ERROR", {0x1, 0x11, 0x11, 0xff});
-     value_labels[2] = TTF_RenderText_Solid(font, "2", {0x1, 0x11, 0x11, 0xff});
-     value_labels[4] = TTF_RenderText_Solid(font, "4", {0x1, 0x11, 0x11, 0xff});
-     value_labels[8] = TTF_RenderText_Solid(font, "8", {0x1, 0x11, 0x11, 0xff});
-     value_labels[16] = TTF_RenderText_Solid(font, "16", {0x1, 0x11, 0x11, 0xff});
-     value_labels[32] = TTF_RenderText_Solid(font, "32", {0x1, 0x11, 0x11, 0xff});
-     value_labels[64] = TTF_RenderText_Solid(font, "64", {0x1, 0x11, 0x11, 0xff});
-     value_labels[128] = TTF_RenderText_Solid(font, "128", {0x1, 0x11, 0x11, 0xff});
-     value_labels[256] = TTF_RenderText_Solid(font, "256", {0x1, 0x11, 0x11, 0xff});
-     value_labels[512] = TTF_RenderText_Solid(font, "512", {0x1, 0x11, 0x11, 0xff});
-     value_labels[1024] = TTF_RenderText_Solid(font, "1024", {0x1, 0x11, 0x11, 0xff});
-     value_labels[2048] = TTF_RenderText_Solid(font, "2048", {0x1, 0x11, 0x11, 0xff});
+     value_labels[0] = TTF_RenderText_Solid(font, "ERROR", {0x00, 0x00, 0x00, 0xff});
 
-
-//     text_1024_surface = TTF_RenderText_Solid(font, "1024", {0xff, 0, 0, 0xff});
-//     printf("%p\n", text_1024_surface);
-//     printf("ttf: %d, %d", text_1024_surface->w, text_1024_surface->h);
 }
 
 BoardRenderer::~BoardRenderer() { 
@@ -149,11 +147,11 @@ void BoardRenderer::render() {
                 trect.x = 2*get_padding()+get_border_width() + ix * tile_size;
                 trect.y = 2*get_padding()+get_border_width() + iy * tile_size;
                 SDL_FillRect(board_surface, &trect, color.main);
-                SDL_Surface* value_text = nullptr;
-                if (value < 2000)
-                	value_text = value_labels[value];
-                else
-                	value_text = value_labels[0];
+                SDL_Surface* value_text = get_piece_label(value);
+//                if (value < 2000)
+//                	value_text = value_labels[value];
+//                else
+//                	value_text = value_labels[0];
                 text_r.w = value_text->w;
                 text_r.h = value_text->h;
                 text_r.x = trect.x + (trect.w - text_r.w)/2;
@@ -164,8 +162,6 @@ void BoardRenderer::render() {
     }
 
 
-
-//    SDL_BlitSurface(text_1024_surface, NULL, board_surface, NULL);
     SDL_BlitSurface(board_surface, NULL, draw_surface, &board_rect);
 
 }
