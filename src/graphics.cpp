@@ -68,9 +68,6 @@ BoardRenderer::BoardRenderer(SDL_PixelFormat* format) {
     piece_colors[6] = {f_rgb(0xa81818), f_rgb(0x222222), f_rgb(0xFFFFFF)};
     piece_colors[7] = {f_rgb(0x8c075b), f_rgb(0x4d0331), f_rgb(0xFFFFFF)};
 
-     font = TTF_OpenFont("res/Quicksand-Medium.ttf", 22);
-
-//     value_labels[0] = TTF_RenderText_Blended(font, "ERROR", {0x00, 0x00, 0x00, 0xff});
 
 }
 
@@ -95,6 +92,10 @@ void BoardRenderer::recalc() {
     float tile_size_hor = display_width / Board::COLUMNS;
     float tile_size_ver = display_height / Board::ROWS;
     tile_size = static_cast<int>(std::min<float>(tile_size_hor, tile_size_ver));
+
+
+    font = TTF_OpenFont("res/Quicksand-Medium.ttf", static_cast<int>(tile_size/2.7f));
+
     field_size = tile_size - 2*get_padding();
     piece_size = field_size - 2*get_padding();
 

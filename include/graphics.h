@@ -1,5 +1,4 @@
 #pragma once
-// #include <stdio.h>
 #include <SDL2/SDL.h>
  #include <SDL2/SDL_ttf.h>
 #include "board.h"
@@ -7,16 +6,11 @@
 #include <map>
 #include <string>
 
-
 struct PieceColors{
     uint32_t main;
     uint32_t border;
     uint32_t text;
 };
-
-//namespace BoardRenderer {
-//	const int PIECE_COLORS_BREAKPOINTS[]{4,16,64,256,1024,2048,4096};
-//}
 
 class BoardRenderer {
 private:

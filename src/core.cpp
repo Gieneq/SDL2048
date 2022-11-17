@@ -88,22 +88,21 @@ void Game::loop() {
 void Game::update(float dt) {
     auto ticks = SDL_GetTicks();
 
-    if (event->type == SDL_KEYUP) {
-//    	bool move_done = false;
-    	if(event->key.keysym.sym == SDLK_UP){
-    		board->swipe(Direction::UP);
 
-    	}
-    	if(event->key.keysym.sym == SDLK_RIGHT){
-    		board->swipe(Direction::RIGHT);
-    	}
-    	if(event->key.keysym.sym == SDLK_DOWN){
-    		board->swipe(Direction::DOWN);
-    	}
-    	if(event->key.keysym.sym == SDLK_LEFT){
-    		board->swipe(Direction::LEFT);
-    	}
-    	board->place_random_piece();
+    if (event->type == SDL_KEYUP) {
+        SwipeResponse resp = SwipeResponse::NONE;
+    	if(event->key.keysym.sym == SDLK_UP)
+    		resp = board->swipe(Direction::UP);
+    	else if(event->key.keysym.sym == SDLK_RIGHT)
+    		resp = board->swipe(Direction::RIGHT);
+    	else if(event->key.keysym.sym == SDLK_DOWN)
+    		resp = board->swipe(Direction::DOWN);
+    	else if(event->key.keysym.sym == SDLK_LEFT)
+    		resp = board->swipe(Direction::LEFT);
+
+    	if (resp != SwipeResponse::NONE)
+    		board->place_random_piece();
+
     }
 
 }

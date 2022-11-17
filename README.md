@@ -37,6 +37,21 @@ Comming soon
 
 ![Pieces merging](img/SDL2048_test_play.gif)
 
+Bugfixes:
+ - pieces merge searching entire row/column (teleporting pieceses),
+ - new piece generated at every move (even when nothing happen).
+ 
+![Pieces merging](img/SDL2048_generating_pieces_gameplay.gif)
+
+Resulting points are in text so far:
+
+```text
+INFO: Got 18 points! Total 42
+INFO: Got 20 points! Total 62
+INFO: Got 10 points! Total 72
+INFO: Got 8 points! Total 80
+```
+
 ## Reference
  - [SDL documentation](https://www.libsdl.org/release/SDL-1.2.15/docs/)
  - [Timing](https://thenumb.at/cpp-course/sdl2/08/08.html)
