@@ -25,12 +25,15 @@ Game::Game() {
     board_renderer->attach_board(board);
     board_renderer->attach_draw_surface(window_surface);
     board_renderer->recalc();
+    event = new SDL_Event;
 
 
 }
 
 Game::~Game() {
     SDL_Log("Finish game...");
+    delete event;
+	event = nullptr;
     SDL_FreeSurface(window_surface);
     window_surface = nullptr;
     SDL_DestroyWindow(window);
@@ -56,11 +59,11 @@ void Game::loop() {
         dt_s = (dt_current_time - dt_last_time) / (float)SDL_GetPerformanceFrequency();
         dt_last_time = dt_current_time;
 
-        SDL_PollEvent(&event);
+        SDL_PollEvent(event);
 
-        if((event.type == SDL_QUIT) || 
-        (event.window.event == SDL_WINDOWEVENT_CLOSE) || 
-        (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_ESCAPE)) {
+        if((event->type == SDL_QUIT) ||
+        (event->window.event == SDL_WINDOWEVENT_CLOSE) ||
+        (event->type == SDL_KEYUP && event->key.keysym.sym == SDLK_ESCAPE)) {
             break;
         }
 
@@ -84,6 +87,24 @@ void Game::loop() {
 
 void Game::update(float dt) {
     auto ticks = SDL_GetTicks();
+
+    if (event->type == SDL_KEYUP) {
+//    	bool move_done = false;
+    	if(event->key.keysym.sym == SDLK_UP){
+    		board->swipe(Direction::UP);
+
+    	}
+    	if(event->key.keysym.sym == SDLK_RIGHT){
+    		board->swipe(Direction::RIGHT);
+    	}
+    	if(event->key.keysym.sym == SDLK_DOWN){
+    		board->swipe(Direction::DOWN);
+    	}
+    	if(event->key.keysym.sym == SDLK_LEFT){
+    		board->swipe(Direction::LEFT);
+    	}
+    	board->place_random_piece();
+    }
 
 }
 

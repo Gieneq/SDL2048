@@ -26,10 +26,12 @@ SDL_Surface* BoardRenderer::get_piece_label(int value) {
 
 	if (!value_labels.count(value)){
 		std::string s = std::to_string(value);
+		if (value == 0)
+			s = "ERROR";
 		const char* text = s.c_str();
  		uint32_t tc = get_piece_color(value).text;
  		SDL_Color color{uint8_t((tc>>16)&0xFF), uint8_t((tc>>8)&0xFF), uint8_t((tc>>0)&0xFF), 0xFF};
- 		value_labels[value] = TTF_RenderText_Solid(font, text, color);
+ 		value_labels[value] = TTF_RenderText_Blended(font, text, color);
  		printf("New label added: %s\n", text);
 	}
 
@@ -66,9 +68,9 @@ BoardRenderer::BoardRenderer(SDL_PixelFormat* format) {
     piece_colors[6] = {f_rgb(0xa81818), f_rgb(0x222222), f_rgb(0xFFFFFF)};
     piece_colors[7] = {f_rgb(0x8c075b), f_rgb(0x4d0331), f_rgb(0xFFFFFF)};
 
-     font = TTF_OpenFont("res/Quicksand-Bold.ttf", 24);
+     font = TTF_OpenFont("res/Quicksand-Medium.ttf", 22);
 
-     value_labels[0] = TTF_RenderText_Solid(font, "ERROR", {0x00, 0x00, 0x00, 0xff});
+//     value_labels[0] = TTF_RenderText_Blended(font, "ERROR", {0x00, 0x00, 0x00, 0xff});
 
 }
 

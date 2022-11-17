@@ -3,14 +3,15 @@
 Attempt to make 2048 game with SDL and C++.
 
 ## Worklog
- -[x] Setup stable game loop.
- -[x] Render board.
- -[x] Render pieces with texts.
- -[ ] Control and gameplay.
- -[ ] Text antyaliasing.
- -[ ] Animation on pieces move.
- -[ ] Animation on new piece popup.
- -[ ] Difficulty levels.
+ - [x] Setup stable game loop.
+ - [x] Render board.
+ - [x] Render pieces with texts.
+ - [x] Control and gameplay.
+ - [x] Text antyaliasing.
+ - [ ] Animation on pieces move.
+ - [ ] Animation on new piece popup.
+ - [ ] Difficulty levels.
+ - [ ] Rounded corners (probably caching).
 
 
 ## Tools
@@ -18,19 +19,23 @@ Attempt to make 2048 game with SDL and C++.
  - [SDL TTF](https://github.com/libsdl-org/SDL_ttf/releases)
 
 
-## Windows setup
+## Project setup on Windows
 Comming soon
 
 ## Worklog
 
 ### Setup board and pieces
 
-Added separated abstraction for board and separate rendering.
+[16.11.2022] Added separated abstraction for board and separate rendering.
 
 ![2048 game in SDL](img/sdl2048_board_pieces.PNG)
 
 
+### Gameplay
 
+[17.11.2022] Added controller and new pieces generator. Text antialiasing enabled.
+
+![Pieces merging](img/SDL2048_test_play.gif)
 
 ## Reference
  - [SDL documentation](https://www.libsdl.org/release/SDL-1.2.15/docs/)
