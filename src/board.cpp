@@ -220,6 +220,7 @@ void Board::place_random_piece() {
 		int todo_tiles = tiles_per_move;
 		if (todo_tiles > free_spots)
 			todo_tiles = free_spots;
+		todo_tiles = 1;
 		for (int i=0; i < todo_tiles; i++){
 			while(true) {
 				int x = rand()%COLUMNS;
@@ -235,7 +236,6 @@ void Board::place_random_piece() {
 }
 
 SwipeResponse Board::swipe(Direction dir) {
-//	SDL_Log("Move: %d", int(dir));
 	int points = 0;
 	SwipeResponse resp = SwipeResponse::NONE;
 	last_move_changing = false;

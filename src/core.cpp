@@ -87,17 +87,15 @@ void Game::loop() {
 
 void Game::update(float dt) {
     auto ticks = SDL_GetTicks();
-
-
     if (event->type == SDL_KEYUP) {
         SwipeResponse resp = SwipeResponse::NONE;
-    	if(event->key.keysym.sym == SDLK_UP)
+    	if((event->key.keysym.sym == SDLK_UP) || (event->key.keysym.sym == SDLK_w))
     		resp = board->swipe(Direction::UP);
-    	else if(event->key.keysym.sym == SDLK_RIGHT)
+    	if((event->key.keysym.sym == SDLK_RIGHT) || (event->key.keysym.sym == SDLK_d))
     		resp = board->swipe(Direction::RIGHT);
-    	else if(event->key.keysym.sym == SDLK_DOWN)
+    	if((event->key.keysym.sym == SDLK_DOWN) || (event->key.keysym.sym == SDLK_s))
     		resp = board->swipe(Direction::DOWN);
-    	else if(event->key.keysym.sym == SDLK_LEFT)
+    	if((event->key.keysym.sym == SDLK_LEFT) || (event->key.keysym.sym == SDLK_a))
     		resp = board->swipe(Direction::LEFT);
 
     	if (resp != SwipeResponse::NONE)

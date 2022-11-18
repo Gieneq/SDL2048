@@ -14,8 +14,8 @@ enum class SwipeResponse {
 
 class Board {
 public:
-    static const int ROWS = 4;
-    static const int COLUMNS = 4;
+    static const int ROWS = 6;
+    static const int COLUMNS = 6;
 private:
     int grid[ROWS][COLUMNS]{0};
     int tiles_per_move{1};
