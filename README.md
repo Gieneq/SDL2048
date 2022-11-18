@@ -65,3 +65,10 @@ INFO: Got 8 points! Total 80
  - Added controller with points depicted.
 
 ![Graphics udate](img/2048_graphics_update.PNG)
+
+### Animations update
+
+[18.11.2022] Changelog:
+ - Added move, merge, creation animations.
+ - Bug: merging 4 pieces at once.
+ - Bug: generating new piece after each move.

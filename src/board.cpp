@@ -6,14 +6,16 @@
 
 int Board::swipe_up() {
 	int points = 0;
-	for(int ix=0; ix<COLUMNS; ++ix) {
-		for(int iy=0; iy<ROWS; ++iy) {
+	for (int ix = 0; ix < COLUMNS; ++ix) {
+		for (int iy = 0; iy < ROWS; ++iy) {
 			int value = get_value(ix, iy);
 			if (value == 0) {
-				for(int im=iy+1; im<ROWS; ++im) {
+				for (int im = iy + 1; im < ROWS; ++im) {
 					int other = get_value(ix, im);
 					if (other > 0) {
 						set_value(other, ix, iy);
+						pieces_events.push( { other, Piece::EventType::MOVE, ix,
+								im, ix, iy });
 						last_move_changing = true;
 						set_value(0, ix, im);
 						break;
@@ -23,13 +25,15 @@ int Board::swipe_up() {
 			}
 			// should be executed if value changed
 			if (value != 0) {
-				for(int im=iy+1; im<ROWS; ++im) {
+				for (int im = iy + 1; im < ROWS; ++im) {
 					int other = get_value(ix, im);
 					if (other != 0 && other != value)
 						break;
-					if (other == value){
-						set_value(value+other, ix, iy);
+					if (other == value) {
+						set_value(value + other, ix, iy);
 						points += value;
+						pieces_events.push( { other, Piece::EventType::MERGE,
+								ix, im, ix, iy });
 						set_value(0, ix, im);
 						break;
 					}
@@ -42,14 +46,16 @@ int Board::swipe_up() {
 
 int Board::swipe_down() {
 	int points = 0;
-	for(int ix=0; ix<COLUMNS; ++ix) {
-		for(int iy=ROWS-1; iy>=0; --iy) {
+	for (int ix = 0; ix < COLUMNS; ++ix) {
+		for (int iy = ROWS - 1; iy >= 0; --iy) {
 			int value = get_value(ix, iy);
 			if (value == 0) {
-				for(int im=iy-1; im>=0; --im) {
+				for (int im = iy - 1; im >= 0; --im) {
 					int other = get_value(ix, im);
 					if (other > 0) {
 						set_value(other, ix, iy);
+						pieces_events.push( { other, Piece::EventType::MOVE, ix,
+								im, ix, iy });
 						last_move_changing = true;
 						set_value(0, ix, im);
 						break;
@@ -59,13 +65,15 @@ int Board::swipe_down() {
 			}
 			// should be executed if value changed
 			if (value != 0) {
-				for(int im=iy-1; im>=0; --im) {
+				for (int im = iy - 1; im >= 0; --im) {
 					int other = get_value(ix, im);
 					if (other != 0 && other != value)
 						break;
-					if (other == value){
-						set_value(value+other, ix, iy);
+					if (other == value) {
+						set_value(value + other, ix, iy);
 						points += value;
+						pieces_events.push( { other, Piece::EventType::MERGE,
+								ix, im, ix, iy });
 						set_value(0, ix, im);
 						break;
 					}
@@ -76,17 +84,18 @@ int Board::swipe_down() {
 	return points;
 }
 
-
 int Board::swipe_left() {
 	int points = 0;
-	for(int iy=0; iy<ROWS; ++iy) {
-		for(int ix=0; ix<COLUMNS; ++ix) {
+	for (int iy = 0; iy < ROWS; ++iy) {
+		for (int ix = 0; ix < COLUMNS; ++ix) {
 			int value = get_value(ix, iy);
 			if (value == 0) {
-				for(int im=ix+1; im<COLUMNS; ++im) {
+				for (int im = ix + 1; im < COLUMNS; ++im) {
 					int other = get_value(im, iy);
 					if (other > 0) {
 						set_value(other, ix, iy);
+						pieces_events.push( { other, Piece::EventType::MOVE, im,
+								iy, ix, iy });
 						last_move_changing = true;
 						set_value(0, im, iy);
 						break;
@@ -96,13 +105,15 @@ int Board::swipe_left() {
 			}
 			// should be executed if value changed
 			if (value != 0) {
-				for(int im=ix+1; im<COLUMNS; ++im) {
+				for (int im = ix + 1; im < COLUMNS; ++im) {
 					int other = get_value(im, iy);
 					if (other != 0 && other != value)
 						break;
 					if (other == value) {
-						set_value(value+other, ix, iy);
+						set_value(value + other, ix, iy);
 						points += value;
+						pieces_events.push( { other, Piece::EventType::MERGE,
+								im, iy, ix, iy });
 						set_value(0, im, iy);
 						break;
 					}
@@ -115,14 +126,16 @@ int Board::swipe_left() {
 
 int Board::swipe_right() {
 	int points = 0;
-	for(int iy=0; iy<ROWS; ++iy) {
-		for(int ix=COLUMNS-1; ix>=0; --ix) {
+	for (int iy = 0; iy < ROWS; ++iy) {
+		for (int ix = COLUMNS - 1; ix >= 0; --ix) {
 			int value = get_value(ix, iy);
 			if (value == 0) {
-				for(int im=ix-1; im>=0; --im) {
+				for (int im = ix - 1; im >= 0; --im) {
 					int other = get_value(im, iy);
 					if (other > 0) {
 						set_value(other, ix, iy);
+						pieces_events.push( { other, Piece::EventType::MOVE, im,
+								iy, ix, iy });
 						last_move_changing = true;
 						set_value(0, im, iy);
 						break;
@@ -132,13 +145,15 @@ int Board::swipe_right() {
 			}
 			// should be executed if value changed
 			if (value != 0) {
-				for(int im=ix-1; im>=0; --im) {
+				for (int im = ix - 1; im >= 0; --im) {
 					int other = get_value(im, iy);
 					if (other != 0 && other != value)
 						break;
-					if (other == value){
-						set_value(value+other, ix, iy);
+					if (other == value) {
+						set_value(value + other, ix, iy);
 						points += value;
+						pieces_events.push( { other, Piece::EventType::MERGE,
+								im, iy, ix, iy });
 						set_value(0, im, iy);
 						break;
 					}
@@ -150,27 +165,39 @@ int Board::swipe_right() {
 }
 
 Board::Board() {
-    SDL_Log("Creating new board with size %d x %d", Board::COLUMNS, Board::ROWS);
-    for(int iy = 0; iy < Board::COLUMNS; ++iy) {
-        for(int ix = 0; ix < Board::ROWS; ++ix)
-            set_value(0, ix, iy);
-    }
+	SDL_Log("Creating new board with size %d x %d", Board::COLUMNS,
+			Board::ROWS);
+	for (int iy = 0; iy < Board::COLUMNS; ++iy) {
+		for (int ix = 0; ix < Board::ROWS; ++ix)
+			set_value(0, ix, iy);
+	}
 
-    tiles_per_move = (Board::COLUMNS * Board::ROWS)/16;
-    if (tiles_per_move < 1)
-    	tiles_per_move = 1;
+	tiles_per_move = (Board::COLUMNS * Board::ROWS) / 16;
+	if (tiles_per_move < 1)
+		tiles_per_move = 1;
 
-    total_points = 0;
-    srand(time(NULL));
-    last_move_changing = false;
+	total_points = 0;
+	srand(time(NULL));
+	last_move_changing = false;
 //    test_pattern();
-    place_random_piece();
-    place_random_piece();
+	set_value(2, 0, 0);
+	Piece::Event pe { 2, Piece::EventType::CREATE, 0, 0, -1, -1 };
+	pieces_events.push(pe);
+	set_value(2, 1, 0);
+	Piece::Event pe1 { 2, Piece::EventType::CREATE, 1, 0, -1, -1 };
+	pieces_events.push(pe1);
+	set_value(2, 2, 0);
+	Piece::Event pe2 { 2, Piece::EventType::CREATE, 2, 0, -1, -1 };
+	pieces_events.push(pe2);
+	set_value(2, 3, 0);
+	Piece::Event pe3 { 2, Piece::EventType::CREATE, 3, 0, -1, -1 };
+	pieces_events.push(pe3);
+	place_random_piece();
 
 }
 
 Board::~Board() {
-    SDL_Log("Destructing board.");
+	SDL_Log("Destructing board.");
 }
 
 void Board::test_pattern() {
@@ -186,49 +213,51 @@ void Board::test_pattern() {
 	set_value(512, 3, 0);
 	set_value(1024, 2, 0);
 	set_value(2048, 1, 0);
-	set_value(2048*2, 1, 1);
-	set_value(2048*4, 1, 2);
-	set_value(2048*8, 2, 2);
-	set_value(2048*16, 2, 1);
+	set_value(2048 * 2, 1, 1);
+	set_value(2048 * 4, 1, 2);
+	set_value(2048 * 8, 2, 2);
+	set_value(2048 * 16, 2, 1);
 }
 
 int Board::get_value(int x, int y) {
-    return grid[y][x];
+	return grid[y][x];
 }
 
 void Board::set_value(int value, int x, int y) {
-    grid[y][x] = value;
+	grid[y][x] = value;
 }
 
 bool Board::is_free(int x, int y) {
-    return get_value(x,y) > 0;
+	return get_value(x, y) > 0;
 }
-
 
 int Board::count_free_spots() {
 	int count = 0;
-    for(int iy = 0; iy < Board::COLUMNS; ++iy) {
-        for(int ix = 0; ix < Board::ROWS; ++ix)
-            if (get_value(ix, iy) == 0)
-            	++count;
-    }
-    return count;
+	for (int iy = 0; iy < Board::COLUMNS; ++iy) {
+		for (int ix = 0; ix < Board::ROWS; ++ix)
+			if (get_value(ix, iy) == 0)
+				++count;
+	}
+	return count;
 }
 
 void Board::place_random_piece() {
 	int free_spots = count_free_spots();
-	if(free_spots > 0) {
+	if (free_spots > 0) {
 		int todo_tiles = tiles_per_move;
 		if (todo_tiles > free_spots)
 			todo_tiles = free_spots;
 		todo_tiles = 1;
-		for (int i=0; i < todo_tiles; i++){
-			while(true) {
-				int x = rand()%COLUMNS;
-				int y = rand()%ROWS;
-				if (get_value(x, y) == 0){
-					int val = 2*(rand()%2 + 1); //todo
+		for (int i = 0; i < todo_tiles; i++) {
+			while (true) {
+				int x = rand() % COLUMNS;
+				int y = 3; //rand() % ROWS);
+				if (get_value(x, y) == 0) {
+					int val = 2; //2 * (rand() % 2 + 1); //todo
 					set_value(val, x, y);
+					Piece::Event pe { val, Piece::EventType::CREATE, x, y, -1,
+							-1 };
+					pieces_events.push(pe);
 					break;
 				}
 			}
@@ -241,13 +270,14 @@ SwipeResponse Board::swipe(Direction dir) {
 	SwipeResponse resp = SwipeResponse::NONE;
 	last_move_changing = false;
 
-	if(dir == Direction::UP)
+	//TODO map
+	if (dir == Direction::UP)
 		points = swipe_up();
-	else if(dir == Direction::RIGHT)
+	else if (dir == Direction::RIGHT)
 		points = swipe_right();
-	else if(dir == Direction::DOWN)
+	else if (dir == Direction::DOWN)
 		points = swipe_down();
-	else if(dir == Direction::LEFT)
+	else if (dir == Direction::LEFT)
 		points = swipe_left();
 
 	if (points > 0)
