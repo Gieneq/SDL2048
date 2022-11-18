@@ -14,19 +14,19 @@ enum class SwipeResponse {
 
 class Board {
 public:
-    static const int ROWS = 6;
-    static const int COLUMNS = 6;
+    static const int ROWS = 4;
+    static const int COLUMNS = 4;
 private:
     int grid[ROWS][COLUMNS]{0};
     int tiles_per_move{1};
     bool last_move_changing;
-    unsigned long total_points;
     int swipe_up();
     int swipe_right();
     int swipe_down();
     int swipe_left();
     void test_pattern();
 public:
+    unsigned long total_points;
     Board();
     ~Board();
     int get_value(int x, int y);

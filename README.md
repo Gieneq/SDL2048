@@ -8,6 +8,7 @@ Attempt to make 2048 game with SDL and C++.
  - [x] Render pieces with texts.
  - [x] Control and gameplay.
  - [x] Text antyaliasing.
+ - [ ] Controller board.
  - [ ] Animation on pieces move.
  - [ ] Animation on new piece popup.
  - [ ] Difficulty levels.
@@ -24,22 +25,26 @@ Comming soon
 
 ## Worklog
 
+Recent progress:
+![Recent view of 2048 game in SDL](img/2048_graphics_update.PNG)
+
+
 ### Setup board and pieces
 
-[16.11.2022] Added separated abstraction for board and separate rendering.
+[16.11.2022] Changelog:
+ - Added separated abstraction for board and separate rendering.
 
 ![2048 game in SDL](img/sdl2048_board_pieces.PNG)
 
-
 ### Gameplay
 
-[17.11.2022] Added controller and new pieces generator. Text antialiasing enabled.
-
+[17.11.2022] Changelog:
+ - Added controller and new pieces generator. 
+ - Text antialiasing enabled.
+ - Bugfix: pieces merge searching entire row/column (teleporting pieceses).
+ - Bugfix: new piece generated at every move (even when nothing happen).
+ 
 ![Pieces merging](img/SDL2048_test_play.gif)
-
-Bugfixes:
- - pieces merge searching entire row/column (teleporting pieceses),
- - new piece generated at every move (even when nothing happen).
  
 ![Pieces merging](img/SDL2048_generating_pieces_gameplay.gif)
 
@@ -52,20 +57,11 @@ INFO: Got 10 points! Total 72
 INFO: Got 8 points! Total 80
 ```
 
-## Reference
- - [SDL documentation](https://www.libsdl.org/release/SDL-1.2.15/docs/)
- - [Timing](https://thenumb.at/cpp-course/sdl2/08/08.html)
- - [lazyfoo SDL tutorial](https://lazyfoo.net/tutorials/SDL/)
- - [Missing libSDL2_ttf-2.0.so.0](https://github.com/CleverRaven/Cataclysm-DDA/issues/30931)
+### Graphics update
 
- ```shell
- apt-cache search libsdl2
- sudo apt install libsdl2-2.0-0
- sudo apt install libsdl2-dev
- sudo apt-get install xorg-dev
- 
- sudo apt install libsdl2-ttf-2.0-0
- sudo apt-get install libSDL-ttf2.0-0
- sudo apt-get install libSDL-ttf2.0-0:i386
+[17.11.2022] Changelog:
+ - Added new coolors with more contrast.
+ - Added minor tweaks in the board rendering.
+ - Added controller with points depicted.
 
- ```
+![Graphics udate](img/2048_graphics_update.PNG)

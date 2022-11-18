@@ -163,6 +163,7 @@ Board::Board() {
     total_points = 0;
     srand(time(NULL));
     last_move_changing = false;
+//    test_pattern();
     place_random_piece();
     place_random_piece();
 

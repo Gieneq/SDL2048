@@ -8,7 +8,7 @@
 
 struct PieceColors{
     uint32_t main;
-    uint32_t border;
+    uint32_t secondary;
     uint32_t text;
 };
 
@@ -17,21 +17,23 @@ private:
     Board* board;
     SDL_Surface* draw_surface;
 
+    SDL_Rect ctrl_rect;
+    SDL_Surface* ctrl_surface;
     SDL_Rect board_rect;
     SDL_Surface* board_surface;
     uint32_t board_color, field_color;
-    static constexpr int PIECE_COLORS_COUNT{8};
+    static constexpr int PIECE_COLORS_COUNT{12};
     static const int PIECE_COLORS_BREAKPOINTS[PIECE_COLORS_COUNT-1];
     PieceColors piece_colors[PIECE_COLORS_COUNT];
 
     int get_padding();
-    int get_border_width();
 
     int tile_size;
     int field_size;
     int piece_size;
 
 	TTF_Font* font;
+	SDL_PixelFormat* format;
 	SDL_Surface* text_1024_surface;
 	std::map<int, SDL_Surface*> value_labels;
 	int get_index_by_value(int value);
